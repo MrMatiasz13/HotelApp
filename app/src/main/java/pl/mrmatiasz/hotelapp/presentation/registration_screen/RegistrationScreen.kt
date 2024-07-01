@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import pl.mrmatiasz.hotelapp.ui.theme.LightBlue
@@ -28,7 +27,8 @@ import pl.mrmatiasz.hotelapp.util.FormTextField
 
 @Composable
 fun RegistrationScreen(
-    navController: NavController?
+    navController: NavController
+    viewModel: RegistrationViewModel = hiltViewModel
 ) {
     Column(
         modifier = Modifier
@@ -121,10 +121,4 @@ fun RegistrationFieldSection() {
             Text(text = "Sign Up")
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun RegistrationScreenPreview() {
-    RegistrationScreen(navController = null)
 }

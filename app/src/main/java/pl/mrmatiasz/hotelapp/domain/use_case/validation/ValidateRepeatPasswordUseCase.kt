@@ -2,9 +2,9 @@ package pl.mrmatiasz.hotelapp.domain.use_case.validation
 
 class ValidateRepeatPasswordUseCase {
 
-    fun execute(repeatPassword: String, password: String): ValidationResult {
+    fun execute(password: String, repeatedPassword: String): ValidationResult {
 
-        if(repeatPassword != password) {
+        if(password != repeatedPassword) {
             return ValidationResult(
                 isSuccess = false,
                 errorMessage = "Passwords doesn't matches."
