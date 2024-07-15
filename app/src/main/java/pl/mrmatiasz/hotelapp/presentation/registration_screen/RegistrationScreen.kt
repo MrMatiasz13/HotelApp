@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import pl.mrmatiasz.hotelapp.ui.theme.LightBlue
 import pl.mrmatiasz.hotelapp.util.FormPasswordFiled
@@ -27,8 +28,8 @@ import pl.mrmatiasz.hotelapp.util.FormTextField
 
 @Composable
 fun RegistrationScreen(
-    navController: NavController
-    viewModel: RegistrationViewModel = hiltViewModel
+    navController: NavController,
+    viewModel: RegistrationViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -39,7 +40,7 @@ fun RegistrationScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        RegistrationFieldSection()
+        RegistrationFieldSection(viewModel)
     }
 }
 
@@ -59,13 +60,10 @@ fun TitleSection() {
 }
 
 @Composable
-fun RegistrationFieldSection() {
-    var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var repeatPassword by remember { mutableStateOf("") }
+fun RegistrationFieldSection(viewModel: RegistrationViewModel) {
     var passwordVisibility by remember { mutableStateOf(false) }
-    var isError by remember { mutableStateOf(false) }
+
+    val formState = viewModel.formState
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,39 +72,39 @@ fun RegistrationFieldSection() {
             .padding(8.dp)
     ) {
         FormTextField(
-            value = username,
-            onValueChange = { username = it },
+            value = formState.username,
+            onValueChange = { viewModel.onEvent(RegistrationEvent.UsernameChanged(it)) },
             placeHolder = "Username",
-            errorMessage = "test error",
-            isError = isError
+            errorMessage = formState.usernameError.toString(),
+            isError = formState.usernameError != null
         )
 
         FormTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = formState.email,
+            onValueChange = { viewModel.onEvent(RegistrationEvent.EmailChanged(it)) },
             placeHolder = "Email",
-            errorMessage = "test Error",
-            isError = isError
+            errorMessage = formState.emailError.toString(),
+            isError = formState.emailError != null
         )
 
         FormPasswordFiled(
-            value = password,
-            onValueChange = { password = it },
+            value = formState.password,
+            onValueChange = { viewModel.onEvent(RegistrationEvent.PasswordChanged(it)) },
             placeHolder = "Password",
             passwordVisibility = passwordVisibility,
             onIconClick = { passwordVisibility = !passwordVisibility },
-            errorMessage = "test",
-            isError = isError
+            errorMessage = formState.passwordError.toString(),
+            isError = formState.passwordError != null
         )
 
         FormPasswordFiled(
-            value = repeatPassword,
-            onValueChange = { repeatPassword = it },
+            value = formState.repeatedPassword,
+            onValueChange = { viewModel.onEvent(RegistrationEvent.RepeatedPasswordChanged(it)) },
             placeHolder = "Repeat Password",
             passwordVisibility = passwordVisibility,
             onIconClick = { passwordVisibility = !passwordVisibility },
-            errorMessage = "test",
-            isError = isError
+            errorMessage = formState.repeatedPasswordError.toString(),
+            isError = formState.repeatedPasswordError != null
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -116,7 +114,7 @@ fun RegistrationFieldSection() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
-            onClick = { /*TODO*/ }
+            onClick = { viewModel.onEvent(RegistrationEvent.Submit) }
         ) {
             Text(text = "Sign Up")
         }
