@@ -1,5 +1,6 @@
 package pl.mrmatiasz.hotelapp.presentation.registration_screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +14,15 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -64,6 +68,9 @@ fun RegistrationFieldSection(viewModel: RegistrationViewModel) {
     var passwordVisibility by remember { mutableStateOf(false) }
 
     val formState = viewModel.formState
+
+    val registrationState = viewModel.registrationState.collectAsState(initial = null)
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,6 +124,21 @@ fun RegistrationFieldSection(viewModel: RegistrationViewModel) {
             onClick = { viewModel.onEvent(RegistrationEvent.Submit) }
         ) {
             Text(text = "Sign Up")
+        }
+
+        LaunchedEffect(key1 = registrationState.value?.isSuccess) {
+            if(registrationState.value?.isSuccess?.isNotEmpty() == true) {
+                val success = registrationState.value?.isSuccess
+                Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+        LaunchedEffect(key1 = registrationState.value?.isError) {
+            if(registrationState.value?.isError?.isNotEmpty() == true) {
+                val error = registrationState.value?.isError
+                Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

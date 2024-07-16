@@ -11,6 +11,8 @@ import io.github.jan.supabase.gotrue.FlowType
 import io.github.jan.supabase.gotrue.GoTrue
 import io.github.jan.supabase.gotrue.gotrue
 import pl.mrmatiasz.hotelapp.BuildConfig
+import pl.mrmatiasz.hotelapp.data.repository.AuthRepositoryImpl
+import pl.mrmatiasz.hotelapp.domain.repository.AuthRepository
 import javax.inject.Singleton
 
 @Module
@@ -37,5 +39,13 @@ object SupabaseAuthModule {
     @Singleton
     fun supabaseGoTrue(client: SupabaseClient): GoTrue {
         return client.gotrue
+    }
+
+    @Provides
+    @Singleton
+    fun authRepositoryImpl(): AuthRepository {
+        return AuthRepositoryImpl(
+            supabaseGoTrue(supabaseClient())
+        )
     }
 }
