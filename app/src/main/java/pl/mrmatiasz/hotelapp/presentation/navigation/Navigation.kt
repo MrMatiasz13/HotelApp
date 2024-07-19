@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import pl.mrmatiasz.hotelapp.presentation.login_screen.LoginScreen
 import pl.mrmatiasz.hotelapp.presentation.registration_screen.RegistrationScreen
 
 @Composable
@@ -17,8 +18,12 @@ fun Navigation(navHostController: NavHostController) {
             RegistrationScreen(navController = navHostController)
         }
 
+        composable<LoginScreen> {
+            LoginScreen()
+        }
+
         composable<RoomListScreen> {
-            RoomListScreen
+
         }
     }
 }

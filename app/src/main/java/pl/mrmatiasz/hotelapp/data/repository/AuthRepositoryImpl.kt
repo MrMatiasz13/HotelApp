@@ -32,6 +32,7 @@ class AuthRepositoryImpl @Inject constructor(
                 this.email = email
                 this.password = password
             }
+
             emit(Resource.Success(result!!))
         }.catch {
             emit(Resource.Error(it.message.toString()))

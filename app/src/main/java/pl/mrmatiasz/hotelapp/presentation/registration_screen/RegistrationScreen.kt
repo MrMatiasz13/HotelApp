@@ -1,6 +1,7 @@
 package pl.mrmatiasz.hotelapp.presentation.registration_screen
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,10 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import pl.mrmatiasz.hotelapp.presentation.navigation.LoginScreen
 import pl.mrmatiasz.hotelapp.ui.theme.LightBlue
 import pl.mrmatiasz.hotelapp.util.FormPasswordFiled
 import pl.mrmatiasz.hotelapp.util.FormTextField
@@ -45,6 +48,22 @@ fun RegistrationScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         RegistrationFieldSection(viewModel)
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
+            Text(text = "You already have account?")
+            Text(
+                text = "Login here",
+                color = Color.Blue,
+                modifier = Modifier.clickable {
+                    navController.navigate(LoginScreen)
+                }
+            )
+        }
     }
 }
 

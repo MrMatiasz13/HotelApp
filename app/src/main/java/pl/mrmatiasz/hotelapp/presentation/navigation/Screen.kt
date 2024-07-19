@@ -7,3 +7,6 @@ object RoomListScreen
 
 @Serializable
 object RegistrationScreen
+
+@Serializable
+object LoginScreen
