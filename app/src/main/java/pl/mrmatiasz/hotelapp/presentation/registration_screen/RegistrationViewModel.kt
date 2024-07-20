@@ -102,10 +102,10 @@ class RegistrationViewModel @Inject constructor(
             authRepository.register(email, password).collect { result ->
                 when(result) {
                     is Resource.Loading -> _registrationState.send(RegistrationState(isLoading = true))
-                    is Resource.Success -> _registrationState.send(RegistrationState(isSuccess = "Sign up success"))
+                    is Resource.Success -> _registrationState.send(RegistrationState(isSuccess = "Sign up success."))
                     is Resource.Error -> {
                         _registrationState.send(RegistrationState(isError = result.message))
-                        Log.d("SUPABASE_AUTH_ERROR", result.message.toString())
+                        Log.d("SUPABASE_AUTH_ERROR", "${result.message}")
                     }
                 }
             }
