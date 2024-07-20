@@ -63,7 +63,7 @@ class RegistrationViewModel @Inject constructor(
                 )
 
                 if(!errorList.any()) {
-                    Log.d("SUB_TEST", "There is an error")
+                    Log.d("SUB_VALIDATION_ERROR", "There is an error")
                 }
 
                 else {

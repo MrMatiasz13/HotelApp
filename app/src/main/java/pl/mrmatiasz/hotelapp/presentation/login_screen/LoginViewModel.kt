@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val validateEmailUseCase: ValidateEmailUseCase,
-    private val validatePasswordUseCase: ValidatePasswordUseCase
+    private val validatePasswordUseCase: ValidatePasswordUseCase,
 
     private val authRepository: AuthRepository
 ): ViewModel() {
@@ -47,11 +47,11 @@ class LoginViewModel @Inject constructor(
                 )
 
                 if(!errorList.any()) {
-                    Log.d("SUB_TEST", "There is an error")
+                    Log.d("SUB_VALIDATION_ERROR", "There is an error")
                 }
 
                 else {
-
+                    login(formState.email, formState.password)
                 }
             }
         }
