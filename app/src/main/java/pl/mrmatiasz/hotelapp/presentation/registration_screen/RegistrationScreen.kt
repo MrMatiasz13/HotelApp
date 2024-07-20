@@ -147,16 +147,16 @@ fun RegistrationFieldSection(viewModel: RegistrationViewModel) {
 
         LaunchedEffect(key1 = registrationState.value?.isSuccess) {
             if(registrationState.value?.isSuccess?.isNotEmpty() == true) {
-                val success = registrationState.value?.isSuccess
-                Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
+                val successMessage = registrationState.value?.isSuccess
+                Toast.makeText(context, "$successMessage", Toast.LENGTH_LONG).show()
             }
         }
 
 
         LaunchedEffect(key1 = registrationState.value?.isError) {
             if(registrationState.value?.isError?.isNotEmpty() == true) {
-                val error = registrationState.value?.isError
-                Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
+                val errorMessage = registrationState.value?.isError
+                Toast.makeText(context, "Error: $errorMessage", Toast.LENGTH_LONG).show()
             }
         }
     }

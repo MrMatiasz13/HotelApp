@@ -19,7 +19,7 @@ fun Navigation(navHostController: NavHostController) {
         }
 
         composable<LoginScreen> {
-            LoginScreen()
+            LoginScreen(navController = navHostController)
         }
 
         composable<RoomListScreen> {
