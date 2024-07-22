@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -61,16 +64,35 @@ fun TitleSection() {
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+                .wrapContentSize()
         ) {
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Login",
-                style = MaterialTheme.typography.titleLarge
-            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "HOTEL APP",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineLarge
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Login",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         }
     }
 }
@@ -82,12 +104,11 @@ fun LoginFieldSection(
 ) {
     Box(
         modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight()
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp)
@@ -99,6 +120,8 @@ fun LoginFieldSection(
             val loginState = viewModel.loginState.collectAsState(initial = null)
 
             val context = LocalContext.current
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             FormTextField(
                 value = formState.email,
@@ -161,4 +184,11 @@ fun LoginFieldSection(
             }
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun LoginScreenPreview() {
+    TitleSection()
 }
