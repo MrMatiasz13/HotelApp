@@ -41,16 +41,12 @@ class LoginViewModel @Inject constructor(
             }
 
             is LoginEvent.Submit -> {
-                val errorList = listOf(
+                val hasError = listOf(
                     validateEmail(),
                     validatePassword()
-                )
+                ).any { !it }
 
-                if(!errorList.any()) {
-                    Log.d("SUB_VALIDATION_ERROR", "There is an error")
-                }
-
-                else {
+                if(!hasError) {
                     login(formState.email, formState.password)
                 }
             }

@@ -55,18 +55,14 @@ class RegistrationViewModel @Inject constructor(
             }
 
             is RegistrationEvent.Submit -> {
-                val errorList = listOf(
+                val hasError = listOf(
                     validateUsername(),
                     validateEmail(),
                     validatePassword(),
                     validateRepeatedPassword()
-                )
+                ).any { !it }
 
-                if(!errorList.any()) {
-                    Log.d("SUB_VALIDATION_ERROR", "There is an error")
-                }
-
-                else {
+                if(!hasError) {
                     register(formState.email, formState.password)
                 }
             }
