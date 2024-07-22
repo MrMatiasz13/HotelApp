@@ -3,6 +3,7 @@ package pl.mrmatiasz.hotelapp.presentation.login_screen
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -48,101 +50,114 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LoginFieldSection(viewModel)
+        LoginFieldSection(viewModel, navController)
+    }
+}
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+@Composable
+fun TitleSection() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        Row(
             modifier = Modifier
-                .padding(8.dp)
                 .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Text(text = "Don't have account yet?")
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Register here",
-                color = Color.Blue,
-                modifier = Modifier.clickable {
-                    navController.navigate(RegistrationScreen)
-                }
+                text = "Login",
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }
 }
 
 @Composable
-fun TitleSection() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = "Login",
-            style = MaterialTheme.typography.titleLarge
-        )
-    }
-}
-
-@Composable
 fun LoginFieldSection(
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel,
+    navController: NavController
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        .fillMaxWidth()
+        .wrapContentHeight()
     ) {
-        var passwordVisibility by remember { mutableStateOf(false) }
-
-        val formState = viewModel.formState
-
-        val loginState = viewModel.loginState.collectAsState(initial = null)
-
-        val context = LocalContext.current
-
-        FormTextField(
-            value = formState.email,
-            onValueChange = { viewModel.onEvent(LoginEvent.EmailChanged(it)) },
-            placeHolder = "Email",
-            errorMessage = "${formState.emailError}",
-            isError = formState.emailError != null
-        )
-
-        FormPasswordFiled(
-            value = formState.password,
-            onValueChange = { viewModel.onEvent(LoginEvent.PasswordChanged(it)) },
-            placeHolder = "Password",
-            passwordVisibility = passwordVisibility,
-            onIconClick = { passwordVisibility = !passwordVisibility },
-            errorMessage = "${formState.passwordError}",
-            isError = formState.passwordError != null
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(
-            colors = ButtonDefaults.buttonColors(LightBlue),
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
-            onClick = { viewModel.onEvent(LoginEvent.Submit) }
+                .fillMaxSize()
+                .padding(8.dp)
         ) {
-            Text(text = "Login")
-        }
+            var passwordVisibility by remember { mutableStateOf(false) }
 
-        LaunchedEffect(key1 = loginState.value?.isSuccess) {
-            if(loginState.value?.isSuccess?.isNotEmpty() == true) {
-                val successMessage = loginState.value?.isSuccess
-                Toast.makeText(context, "$successMessage", Toast.LENGTH_SHORT).show()
+            val formState = viewModel.formState
+
+            val loginState = viewModel.loginState.collectAsState(initial = null)
+
+            val context = LocalContext.current
+
+            FormTextField(
+                value = formState.email,
+                onValueChange = { viewModel.onEvent(LoginEvent.EmailChanged(it)) },
+                placeHolder = "Email",
+                errorMessage = "${formState.emailError}",
+                isError = formState.emailError != null
+            )
+
+            FormPasswordFiled(
+                value = formState.password,
+                onValueChange = { viewModel.onEvent(LoginEvent.PasswordChanged(it)) },
+                placeHolder = "Password",
+                passwordVisibility = passwordVisibility,
+                onIconClick = { passwordVisibility = !passwordVisibility },
+                errorMessage = "${formState.passwordError}",
+                isError = formState.passwordError != null
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(
+                colors = ButtonDefaults.buttonColors(LightBlue),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                onClick = { viewModel.onEvent(LoginEvent.Submit) }
+            ) {
+                Text(text = "Login")
             }
-        }
 
-        LaunchedEffect(key1 = loginState.value?.isError) {
-            if(loginState.value?.isError?.isNotEmpty() == true) {
-                val errorMessage = loginState.value?.isError
-                Toast.makeText(context, "$errorMessage", Toast.LENGTH_SHORT).show()
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Don't have account yet?")
+                Text(
+                    text = "Register here",
+                    color = Color.Blue,
+                    modifier = Modifier.clickable {
+                        navController.navigate(RegistrationScreen)
+                    }
+                )
+            }
+
+            LaunchedEffect(key1 = loginState.value?.isSuccess) {
+                if(loginState.value?.isSuccess?.isNotEmpty() == true) {
+                    val successMessage = loginState.value?.isSuccess
+                    Toast.makeText(context, "$successMessage", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            LaunchedEffect(key1 = loginState.value?.isError) {
+                if(loginState.value?.isError?.isNotEmpty() == true) {
+                    val errorMessage = loginState.value?.isError
+                    Toast.makeText(context, "$errorMessage", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

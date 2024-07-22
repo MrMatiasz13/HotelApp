@@ -1,6 +1,7 @@
 package pl.mrmatiasz.hotelapp.util
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -27,8 +28,10 @@ fun FormTextField(
     isError: Boolean
 ) {
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(4.dp)
+            .fillMaxWidth()
     ) {
         OutlinedTextField(
             value = value,
@@ -60,8 +63,10 @@ fun FormPasswordFiled(
     isError: Boolean
 ) {
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(4.dp)
+            .fillMaxWidth()
     ) {
         OutlinedTextField(
             value = value,
