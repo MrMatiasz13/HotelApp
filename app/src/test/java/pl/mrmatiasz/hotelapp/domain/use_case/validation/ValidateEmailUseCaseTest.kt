@@ -41,4 +41,19 @@ class ValidateEmailUseCaseTest {
 
         assertEquals(result.isSuccess, false)
     }
+
+    @Test
+    fun `email is valid despite space at the end, returns success`() {
+        val result = validateEmail.execute("email@wp.pl ")
+
+        assertEquals(result.isSuccess, true)
+    }
+
+    @Test
+    fun `email is not valid(space in mid of email), returns error`() {
+        val result = validateEmail.execute("email @wp.pl")
+
+        assertEquals(result.isSuccess, false)
+    }
+
 }
