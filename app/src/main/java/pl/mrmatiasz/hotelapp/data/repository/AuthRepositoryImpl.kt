@@ -38,4 +38,14 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }
     }
+
+    override suspend fun logOut(): Flow<Resource<Unit>> {
+        return flow<Resource<Unit>> {
+            val result = goTrue.logout()
+
+            emit(Resource.Success(result))
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+    }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import pl.mrmatiasz.hotelapp.presentation.navigation.RegistrationScreen
+import pl.mrmatiasz.hotelapp.presentation.navigation.RoomListScreen
 import pl.mrmatiasz.hotelapp.ui.theme.LightBlue
 import pl.mrmatiasz.hotelapp.util.FormPasswordFiled
 import pl.mrmatiasz.hotelapp.util.FormTextField
@@ -173,6 +174,8 @@ fun LoginFieldSection(
                 if(loginState.value?.isSuccess?.isNotEmpty() == true) {
                     val successMessage = loginState.value?.isSuccess
                     Toast.makeText(context, "$successMessage", Toast.LENGTH_SHORT).show()
+
+                    navController.navigate(RoomListScreen)
                 }
             }
 

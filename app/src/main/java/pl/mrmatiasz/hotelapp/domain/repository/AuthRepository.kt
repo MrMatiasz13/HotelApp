@@ -7,4 +7,6 @@ import pl.mrmatiasz.hotelapp.util.Resource
 interface AuthRepository {
     suspend fun login(email: String, password: String): Flow<Resource<Unit>>
     suspend fun register(email: String, password: String): Flow<Resource<Email.Result>>
+
+    suspend fun logOut(): Flow<Resource<Unit>>
 }
